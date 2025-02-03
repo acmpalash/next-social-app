@@ -2,6 +2,7 @@
 import { FaParachuteBox } from "react-icons/fa";
 import { RiHome4Fill } from "react-icons/ri";
 import Link from "next/link";
+import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs";
 
 export default function LeftSidebar() {
   return (
@@ -21,7 +22,12 @@ export default function LeftSidebar() {
           <span className="font-bold xl:inline text-3xl">Home</span>
         </Link>
         <button className="bg-blue-500 text-white text-4xl rounded-full hover:brightness-95 transition-all duration-200 w-48 h-12 shadow-md xl:inline">
-          Sign In
+          <SignedIn>
+            <SignOutButton />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
         </button>
       </div>
     </div>
