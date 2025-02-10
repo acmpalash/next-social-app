@@ -3,6 +3,7 @@ import { FaParachuteBox } from "react-icons/fa";
 import { RiHome4Fill } from "react-icons/ri";
 import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs";
+import MiniProfile from '../components/MiniProfile';
 
 export default function LeftSidebar() {
   return (
@@ -30,6 +31,9 @@ export default function LeftSidebar() {
           </SignedOut>
         </button>
       </div>
+      <SignedIn>
+      <MiniProfile />
+      </SignedIn>
     </div>
   );
 }

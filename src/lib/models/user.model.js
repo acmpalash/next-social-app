@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
         },
         avatar: {
             type: String,
-            required: true
+            required: true,
         },
         followers: {
             type: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
@@ -32,9 +32,13 @@ const userSchema = new mongoose.Schema(
         },
         following: {
             type: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-            default:[],
+            default: [],
         },
 
     }, 
     {timestamps: true}
 );
+
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
+export default User;
