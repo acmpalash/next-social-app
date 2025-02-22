@@ -7,7 +7,7 @@ export const createOrUpdateUser = async (
     last_name,
     email_addresses,
     image_url,
-    username,
+    username
 ) => {
     try {
         await connect();
@@ -19,7 +19,7 @@ export const createOrUpdateUser = async (
                 lastName: last_name,
                 avatar: image_url,
                 email: email_addresses[0].email_address,
-                username
+                username,
             },
         },
         {new: true, upsert: true}

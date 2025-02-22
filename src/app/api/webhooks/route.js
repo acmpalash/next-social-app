@@ -4,31 +4,31 @@ import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
 import { createOrUpdateUser, deleteUser } from '@/lib/actions/user'
 
 export async function POST(req) {
-  const SIGNING_SECRET = process.env.SIGNING_SECRET
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
 
-  if (!SIGNING_SECRET) {
-    throw new Error('Error: Please add SIGNING_SECRET from Clerk Dashboard to .env or .env.local')
+  if (!WEBHOOK_SECRET) {
+    throw new Error('Error: Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
   }
 
   // Create new Svix instance with secret
-  const wh = new Webhook(SIGNING_SECRET)
+  const wh = new Webhook(WEBHOOK_SECRET)
 
   // Get headers
-  const headerPayload = await headers()
-  const svix_id = headerPayload.get('svix-id')
-  const svix_timestamp = headerPayload.get('svix-timestamp')
-  const svix_signature = headerPayload.get('svix-signature')
+  const headerPayload = headers();
+  const svix_id = headerPayload.get('svix-id');
+  const svix_timestamp = headerPayload.get('svix-timestamp');
+  const svix_signature = headerPayload.get('svix-signature');
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
     return new Response('Error: Missing Svix headers', {
       status: 400,
-    })
+    });
   }
 
   // Get body
-  const payload = await req.json()
-  const body = JSON.stringify(payload)
+  const payload = await req.json();
+  const body = JSON.stringify(payload);
 
   let evt;
 
@@ -50,8 +50,8 @@ export async function POST(req) {
   // For this guide, log payload to console
   const { id } = evt?.data
   const eventType = evt?.type
-  console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
-  console.log('Webhook payload:', body)
+  console.log(`Received Webhook with ID ${id} and event type of ${eventType}`)
+  console.log('Webhook payload body:', body)
 
   if(eventType === 'user.created' || eventType === 'user.updated'){
     const{ id, first_name, last_name, image_url, email_addresses, username} = evt?.data;
@@ -62,11 +62,11 @@ export async function POST(req) {
         last_name,
         image_url,
         email_addresses,
-        username,
+        username
       );
-      if(user || eventType === 'user.created'){
+      if(user && eventType === 'user.created'){
         try {
-          await clerkClient.users.updateUserMetadata(id,{
+          await clerkClient.users.updateUserMetadata(id, {
             publicMetadata:{
               userMongoId: user._id,
             },
@@ -87,7 +87,7 @@ export async function POST(req) {
   if(eventType === 'user.deleted'){
     const { id } = evt?.data;
     try {
-      await deleteUser(id)
+      await deleteUser(id);
     } catch (error) {
       console.log('Error deleting user:', error);
       return new Response('Error occured', {

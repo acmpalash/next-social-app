@@ -5,7 +5,7 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey:process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "acm-nextjs-social.firebaseapp.com",
   projectId: "acm-nextjs-social",
   storageBucket: "acm-nextjs-social.firebasestorage.app",

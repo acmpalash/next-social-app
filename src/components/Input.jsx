@@ -1,6 +1,6 @@
 'use client'
 
-import { useUser } from '@clerk/nextjs';
+import { SignIn, useUser } from '@clerk/nextjs';
 import { useRef, useState, useEffect } from 'react';
 import { MdAddAPhoto } from "react-icons/md";
 import { app } from '@/firebase';
@@ -11,14 +11,14 @@ export default function Input() {
     const {user, isSignedIn, isLoaded} = useUser();
     
     const [imageFileUrl, setImageFileUrl] = useState(null);
-    const [selectedFiel, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
     const [imageFileUploading, setImageFileUploading] = useState(false);
 
-    const imagePickRef = useRef(null);
+    const [text, setText] = useState('');
+    const [postLoading, setPostLoading] = useState(false);
 
-    if(!isSignedIn || !isLoaded){
-        return null;
-    }
+    const imagePickRef = useRef(null);
+    
     const addImageToPost = (e) => {
         const file =  e.target.files[0];
         if (file) {
@@ -27,22 +27,22 @@ export default function Input() {
         }
     };
     useEffect(() => {
-        if(selectedFiel){
+        if(selectedFile){
             uploadImageToStorage();
         }
-    }, [selectedFiel]);
+    }, [selectedFile]);
 
     const uploadImageToStorage = async () =>{
         setImageFileUploading(true);
         const storage = getStorage(app);
-        const fileName = new Date().getTime() + "_" + selectedFiel.name;
+        const fileName = new Date().getTime() + "_" + selectedFile.name;
         const storageRef = ref(storage, fileName);
-        const uploadTask = uploadBytesResumable(storageRef, selectedFiel);
+        const uploadTask = uploadBytesResumable(storageRef, selectedFile);
         uploadTask.on(
             'state_changed',
             (snapshot) => {
                 const progress = 
-                ( snapshot.bytesTransferred / snapshot.totalBytes) + 100;
+                ( snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 console.log('Upload is' + progress + '% done');
             },
             (error) => {
@@ -59,15 +59,40 @@ export default function Input() {
             }
         );
     };
+
+    const handleSubmit = async () => {
+        setPostLoading(true);
+        const response = await fetch('/api/post/create', {
+            method : 'POST',
+            headers : { 'Content-Type': 'application/json',},
+            body: JSON.stringify({
+                userMongoId: user.publicMetadata.userMongoId,
+                name: user.fullName,
+                username: user.username,
+                text,
+                profileImg : user.imageUrl,
+                image: imageFileUrl,
+            }),
+        });
+        setPostLoading(false);
+        setText('');
+        setSelectedFile(null);
+        setImageFileUrl(null);
+        location.reload();
+    };
+
+    if(!isSignedIn || !isLoaded){
+        return null;
+    }
   return (
     <div className='flex border-b border-gray-200 p-3 space-x-3 w-full'>
         <img src={user.imageUrl} alt='user-img' 
         className='h-11 w-11 rounded-full cursor-pointer hover: brightness-95 object-cover' />
         <div className='w-full divide-y devide-gray-200'>
             <textarea className='w-full border-none outline-none tracking-wide min-h-[50px] text-gray-700'
-            placeholder='Whats Happening' rows='2'>
+            placeholder='Whats Happening' rows='2' value={text} onChange={(e) => setText(e.target.value)}>
             </textarea>
-            {selectedFiel && (
+            {selectedFile && (
                 <img onClick={() =>{
                     setSelectedFile(null);
                     setImageFileUrl(null);
@@ -75,7 +100,7 @@ export default function Input() {
                 src={imageFileUrl} 
                 alt='selected-img' 
                 className={`w-full max-h-[250px] object-cover cursor-pointer 
-                ${imageFileUploading ? 'animate-palse' : ''} `} /> 
+                ${imageFileUploading ? 'animate-pulse' : ''} `} /> 
             )}
             <div className='flex items-center justify-between pt-2.5'>
                 <MdAddAPhoto className='h-10 w-10 p-2 text-sky-600 hover:bg-sky-100 
@@ -85,8 +110,9 @@ export default function Input() {
                     accept='image/*'
                     hidden
                     onChange={addImageToPost} />
-                <button disabled className='bg-blue-500 text-white px-4 py-1.5 rounded-full font-bold shadow-md 
-                hover:brightness-95 disable:opacity-50'>
+                <button disabled = { text.trim() === '' || postLoading || imageFileUploading}
+                className='bg-blue-500 text-white px-4 py-1.5 rounded-full font-bold shadow-md 
+                hover:brightness-95 disabled:opacity-50' onClick={handleSubmit}>
                     Post
                 </button>
             </div>

@@ -10,18 +10,14 @@ export const connect = async () => {
     }
 
     try {
-        await mongoose.connect(process.env.MONGODB.URI, {
+        await mongoose.connect(process.env.MONGODB_URI, {
             dbName: 'acm-nextjs-social',
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        console.log('connected to MongoDb');
+        console.log('Connected to MongoDB');
         initialized = true;
     } catch (error) {
-        console.log('error connected mongodb:',error);        
+        console.log('Error connected mongodB:',error);        
     }
 };
-
-const User = mongoose.model.User || mongoose.model('User', userSchema);
-
-export default User;
