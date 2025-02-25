@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { comment } from "postcss";
 
-const postSchema = new mongoose.Schema(
+const postSchema = new mongoose.Schema (
     {
         text: {
             type: String,
