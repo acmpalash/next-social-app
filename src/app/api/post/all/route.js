@@ -1,5 +1,6 @@
 import Post from "@/lib/models/post.model";
 import { connect } from "@/lib/mongodb/mongoose";
+import React from "react";
 
 export const POST = async (req) => {
     try {

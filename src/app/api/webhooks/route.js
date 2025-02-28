@@ -1,17 +1,14 @@
-import { Webhook } from 'svix'
-import { headers } from 'next/headers'
-import { clerkClient, WebhookEvent } from '@clerk/nextjs/server'
-import { createOrUpdateUser, deleteUser } from '@/lib/actions/user'
+import { Webhook } from 'svix';
+import { headers } from 'next/headers';
+import { clerkClient, WebhookEvent } from '@clerk/nextjs/server';
+import { createOrUpdateUser, deleteUser } from '@/lib/actions/user';
 
 export async function POST(req) {
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
+  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
-    throw new Error('Error: Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local')
+    throw new Error('Error: Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local');
   }
-
-  // Create new Svix instance with secret
-  const wh = new Webhook(WEBHOOK_SECRET)
 
   // Get headers
   const headerPayload = headers();
@@ -30,6 +27,11 @@ export async function POST(req) {
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
+  
+  // Create new Svix instance with secret
+  const wh = new Webhook(WEBHOOK_SECRET);
+
+
   let evt;
 
   // Verify payload with headers
@@ -40,17 +42,17 @@ export async function POST(req) {
       'svix-signature': svix_signature,
     });
   } catch (err) {
-    console.error('Error: Could not verify webhook:', err)
-    return new Response('Error: Verification error', {
+    console.error('Error: Could not verify webhook:', err);
+    return new Response('Error: occured', {
       status: 400,
-    })
+    });
   }
 
   // Do something with payload
   // For this guide, log payload to console
-  const { id } = evt?.data
-  const eventType = evt?.type
-  console.log(`Received Webhook with ID ${id} and event type of ${eventType}`)
+  const { id } = evt?.data;
+  const eventType = evt?.type;
+  console.log(`Received Webhook with ID ${id} and event type of ${eventType}`);
   console.log('Webhook payload body:', body)
 
   if(eventType === 'user.created' || eventType === 'user.updated'){
@@ -97,5 +99,5 @@ export async function POST(req) {
     }
   }
 
-  return new Response('', { status: 200 })
+  return new Response('', { status: 200 });
 }

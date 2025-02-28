@@ -1,6 +1,5 @@
 import Input from '@/components/Input';
 
-
 export default async function Home() {
   let data = null;
   try {
