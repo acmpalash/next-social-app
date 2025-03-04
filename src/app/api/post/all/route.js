@@ -1,7 +1,8 @@
 import Post from "@/lib/models/post.model";
 import { connect } from "@/lib/mongodb/mongoose";
-import React from "react";
 
+
+// eslint-disable-next-line no-unused-vars
 export const POST = async (req) => {
     try {
         await connect();

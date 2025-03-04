@@ -1,9 +1,11 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
+// eslint-disable-next-line no-unused-vars
 import { clerkClient, WebhookEvent } from '@clerk/nextjs/server';
 import { createOrUpdateUser, deleteUser } from '@/lib/actions/user';
 
 export async function POST(req) {
+  // eslint-disable-next-line no-undef
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
@@ -50,12 +52,14 @@ export async function POST(req) {
 
   // Do something with payload
   // For this guide, log payload to console
+  // eslint-disable-next-line no-unsafe-optional-chaining
   const { id } = evt?.data;
   const eventType = evt?.type;
   console.log(`Received Webhook with ID ${id} and event type of ${eventType}`);
   console.log('Webhook payload body:', body)
 
   if(eventType === 'user.created' || eventType === 'user.updated'){
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const{ id, first_name, last_name, image_url, email_addresses, username} = evt?.data;
     try {
       const user = await createOrUpdateUser(
@@ -87,6 +91,7 @@ export async function POST(req) {
   }
 
   if(eventType === 'user.deleted'){
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const { id } = evt?.data;
     try {
       await deleteUser(id);

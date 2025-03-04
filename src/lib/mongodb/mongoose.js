@@ -10,6 +10,7 @@ export const connect = async () => {
     }
 
     try {
+        // eslint-disable-next-line no-undef
         await mongoose.connect(process.env.MONGODB_URI, {
             dbName: 'acm-nextjs-social',
             // useNewUrlParser: true,

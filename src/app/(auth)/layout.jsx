@@ -1,3 +1,4 @@
+import React from "react";
 import ".././globals.css";
 import { ClerkProvider, ClerkLoaded, ClerkLoading} from '@clerk/nextjs';
 import Loader from '@/components/Loader';

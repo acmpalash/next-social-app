@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { FaParachuteBox } from "react-icons/fa";
 import { RiHome4Fill } from "react-icons/ri";
 import Link from "next/link";

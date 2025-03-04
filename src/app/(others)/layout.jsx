@@ -1,3 +1,4 @@
+import React from 'react';
 import localFont from 'next/font/local';
 import ".././globals.css";
 import LeftSidebar from '@/components/LeftSidebar';

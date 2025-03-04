@@ -1,4 +1,6 @@
+'use client'
 import Input from '@/components/Input';
+import React from 'react';
 
 export default async function Home() {
   let data = null;
@@ -20,4 +22,4 @@ export default async function Home() {
       <Input />
      </div>
   )
-}
+};
