@@ -5,8 +5,8 @@ export default async function Home() {
   let data = null;
   try {
     const result = await fetch(process.env.URL + '/api/post/all', {
-      method: "POST",
-      cache: "no-store",
+      method: 'GET',
+      cache: 'no-store',
     });
     data = await result.json();
   } catch (error) {
@@ -20,5 +20,5 @@ export default async function Home() {
       </div>
       <Input />
      </div>
-  )
-};
+  );
+}
