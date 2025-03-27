@@ -4,7 +4,8 @@ import { SignIn, useUser } from '@clerk/nextjs';
 import { useRef, useState, useEffect } from 'react';
 import { MdAddAPhoto } from "react-icons/md";
 import { app } from '@/firebase';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL }
+ from 'firebase/storage';
 
 
 export default function Input() {
@@ -88,7 +89,7 @@ export default function Input() {
     <div className='flex border-b border-gray-200 p-3 space-x-3 w-full'>
         <img src={user.imageUrl} alt='user-img' 
         className='h-11 w-11 rounded-full cursor-pointer hover: brightness-95 object-cover' />
-        <div className='w-full divide-y devide-gray-200'>
+        <div className='w-full divide-y divide-gray-200'>
             <textarea className='w-full border-none outline-none tracking-wide min-h-[50px] text-gray-700'
             placeholder='Whats Happening' rows='2' value={text} onChange={(e) => setText(e.target.value)}>
             </textarea>
@@ -100,7 +101,8 @@ export default function Input() {
                 src={imageFileUrl} 
                 alt='selected-img' 
                 className={`w-full max-h-[250px] object-cover cursor-pointer 
-                ${imageFileUploading ? 'animate-pulse' : ''} `} /> 
+                ${imageFileUploading ? 'animate-pulse' : ''
+                    } `} /> 
             )}
             <div className='flex items-center justify-between pt-2.5'>
                 <MdAddAPhoto className='h-10 w-10 p-2 text-sky-600 hover:bg-sky-100 

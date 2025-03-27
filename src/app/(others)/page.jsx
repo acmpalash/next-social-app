@@ -1,12 +1,13 @@
 import Input from '@/components/Input';
 import React from 'react';
+import Feed from '@/components/Feed';
 
 export default async function Home() {
   let data = null;
   try {
     const result = await fetch(process.env.URL + '/api/post/all', {
-      method: 'GET',
-      cache: 'no-store',
+      method: 'POST',
+      cache: 'no-store'
     });
     data = await result.json();
   } catch (error) {
@@ -19,6 +20,7 @@ export default async function Home() {
 
       </div>
       <Input />
+      <Feed data = {data} />
      </div>
   );
 }

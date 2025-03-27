@@ -5,6 +5,8 @@ import LeftSidebar from '@/components/LeftSidebar';
 import RightSidebar from '@/components/RightSidebar';
 import { ClerkProvider, ClerkLoaded, ClerkLoading} from '@clerk/nextjs';
 import Loader from '@/components/Loader';
+import SessionWrapper from '@/components/SessionWrapper';
+import CommentModal from '@/components/CommentModal';
 
 
 const geistSans = localFont({
@@ -27,7 +29,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-
+    <SessionWrapper>
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -47,12 +49,13 @@ export default function RootLayout({ children }) {
           <div className='lg:flex-col border-l p-3 h-screen hidden lg:flex w-[24rem]'>
             <RightSidebar />
             </div>
-        </div>
+        </div>        
         </>
+        <CommentModal />
        </ClerkLoaded>
       </body>
     </html>
-   
+    </SessionWrapper>
     </ClerkProvider>
   );
 }
