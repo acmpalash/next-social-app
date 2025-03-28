@@ -6,8 +6,8 @@ import { modalAtom } from "@/atom/modalAtom";
 import React, { useEffect, useState } from 'react'
 import { HiX } from "react-icons/hi";
 import { useUser } from "@clerk/nextjs";
-import { comment } from "postcss";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function CommentModal() {
     const [open, setOpen] = useRecoilState(modalAtom);
@@ -94,7 +94,7 @@ export default function CommentModal() {
                   </div>
                   <div className="p-2 flex items-center space-x-1 relative" >
                     <span className="w-0.5 h-full z-[-1] absolute left-8 top-11 bg-gray-300" />
-                    <img 
+                    <Image
                       src={
                         postLoading 
                         ? 'https://www.iconpacks.net/free-icon/user-link-289.html'

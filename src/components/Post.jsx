@@ -2,12 +2,14 @@ import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import Icons from './Icons';
+import Image from 'next/image';
 
 export default function Post({post}) {
   return (
     <div className='flex p-3 border-b border-gray-200 w-full hover: bg-gray-50'>
       <Link href={`users/${post?.username}`}>
-      <img
+      <Image
         src={post?.profileImg}
         alt='user-img'
         className='h-11 w-11 rounded-full mr-4'
@@ -32,7 +34,7 @@ export default function Post({post}) {
         <p className='text-gray-800 text-sm my-3 w-full'>{post?.text}</p>
         </Link>
         <Link href={`/posts/${post?._id}`}>
-          <img src={post?.image} className='rounded-2xl mr-2' />
+          <Image src={post?.image} className='rounded-2xl mr-2' />
         </Link>
         <Icons post={post} id={post._id} />
       </div>

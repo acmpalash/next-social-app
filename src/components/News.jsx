@@ -22,7 +22,7 @@ export default function News() {
       <h6 className="text-lg font-bold">{article.title}</h6>
       <p className="text-xs font-medium text-gray-500">{article.source.name}</p>
       </div>
-      <img src={article.urlToImage} width={70} className='rounded-xl' />
+      <Image src={article.urlToImage} width={70} className='rounded-xl' />
       </div>
       </a>
       </div>

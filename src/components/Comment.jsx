@@ -3,12 +3,13 @@ import moment from 'moment'
 import React from 'react'
 import { HiDotsHorizontal } from 'react-icons/hi';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Comment({comment, id}) {
   return (
     <div className='flex p-3 border-b border-gray-200 hover: bg-gray-50 pl-10'>
         <Link href={`/users/${comment?.username}`}>
-        <img 
+        <Image
             src={comment?.profileImg}
             alt='user-img' 
             className='h-9 w-9 rounded-full mr-4' />            
