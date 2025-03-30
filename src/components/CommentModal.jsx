@@ -2,7 +2,7 @@
 
 import { useRecoilState } from "recoil";
 import { modalAtom } from "@/atom/modalAtom";
-
+import Modal from 'react-modal';
 import React, { useEffect, useState } from 'react'
 import { HiX } from "react-icons/hi";
 import { useUser } from "@clerk/nextjs";
@@ -30,7 +30,7 @@ export default function CommentModal() {
             },
             body: JSON.stringify({postId}),
           });
-          if(response.of){
+          if(response.ok){
             const postData = await response.json();
             setPost(postData);
             setPostLoading(false);
@@ -66,7 +66,7 @@ export default function CommentModal() {
         if(res.status === 200){
           setInput('');
           setOpen(false);
-          router.push('/posts/${postId}');
+          router.push(`/posts/${postId}`);
           setTimeout(() => {
             router.refresh();
           }, 100);
@@ -110,7 +110,7 @@ export default function CommentModal() {
                         @{postLoading ? 'username' : post?.username}
                       </span>
                   </div>
-                  <p className="text-grau-500  sm:text-[16px] text-[15px] ml-16 mb-2">
+                  <p className="text-gray-500  sm:text-[16px] text-[15px] ml-16 mb-2">
                         {postLoading ? 'Loading...' : post?.text}
                       </p>
                     <div className="flex p-3 space-x-3">
