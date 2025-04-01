@@ -34,7 +34,7 @@ export default function Post({post}) {
         <p className='text-gray-800 text-sm my-3 w-full'>{post?.text}</p>
         </Link>
         <Link href={`/posts/${post?._id}`}>
-          <Image src={post?.image} className='rounded-2xl mr-2' />
+          <Image alt='' src={post?.image} className='rounded-2xl mr-2' />
         </Link>
         <Icons post={post} id={post._id} />
       </div>

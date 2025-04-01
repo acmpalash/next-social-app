@@ -25,7 +25,7 @@ export default function Icons({post}) {
         body : JSON.stringify({postId: post._id}),
     });
     if(like && isLiked){
-      setLikes(like.filter((like) => like !== user.publicMetadata.userMongoId ));
+      setLikes(likes.filter((like) => like !== user.publicMetadata.userMongoId ));
     }
     if(like && !isLiked){
       setLikes([...likes, user.publicMetadata.userMongoId]);
@@ -40,7 +40,7 @@ export default function Icons({post}) {
     }, [likes, user]);
 
     const deletePost = async () => {
-      if(windows.confirm('Are you confirm to delete the Post?')) {
+      if(window.confirm('Are you confirm to delete the Post?')) {
         if(user && user.publicMetadata.userMongoId === post.user) {
           const res = await fetch('/api/post/delete', {
               method: 'DELETE',
@@ -52,7 +52,7 @@ export default function Icons({post}) {
           if(res.status === 200) {
             location.reload();
           } else {
-            alert('Error deleted Post');
+            alert('Error deleting post');
           }
         }
       }
@@ -66,14 +66,14 @@ export default function Icons({post}) {
                 if(!user){
                   router.push('/sign-in');
                 } else {
-                  setOpen(!open)
-                  setPostId(post._id)
+                  setOpen(!open);
+                  setPostId(post._id);
                 }
             }         
           }
         />
         {post.comments.length > 0 && (
-          <span className='text-xs'>{text.comments.length}</span>
+          <span className='text-xs'>{post.comments.length}</span>
         )}
         </div>
         <div className='flex items-center'>
@@ -91,5 +91,5 @@ export default function Icons({post}) {
         <HiOutlineTrash onClick = {deletePost} className='h-8 w-8 cursor-pointer rounded-full transition duration-500 case-in-out p-2 hover:text-green-500 hover:bg-green-100' />
       )};
     </div>
-  )
-};
+  );
+}

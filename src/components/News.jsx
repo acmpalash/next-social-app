@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 export default function News() {
   const [news, setNews] = useState([]);
-  const [articleNum, setArticleNum] = useState(3)
+  const [articleNum, setArticleNum] = useState(3);
   useEffect(()=>{
     fetch(`https://saurav.tech/NewsAPI/top-headlines/category/business/in.json`)
     .then((res) =>res.json())
@@ -19,17 +19,18 @@ export default function News() {
       <a href={article.url} target="_blank">
       <div className="flex items-center justify-between px-4 py-2 space-x-1 hover:bg-gray-200 transition duration-200">
       <div className='space-y-0.5'>
-      <h6 className="text-lg font-bold">{article.title}</h6>
+      <h6 className="text-sm font-bold">{article.title}</h6>
       <p className="text-xs font-medium text-gray-500">{article.source.name}</p>
       </div>
-      <Image src={article.urlToImage} width={70} className='rounded-xl' />
+      <Image alt='' src={article.urlToImage} width={70} height={70} className='rounded-xl' />
       </div>
       </a>
       </div>
     ) )}
-    <button onClick={() => setArticleNum(articleNum + 3)} className='text-blue-300 pl-4 pb-3 hover:text-blue-400 text-sm'>
+    <button onClick={() => setArticleNum(articleNum + 3)} 
+    className='text-blue-300 pl-4 pb-3 hover:text-blue-400 text-sm'>
     Load More
     </button>
     </div>
-  )
+  );
 }
